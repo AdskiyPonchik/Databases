@@ -1,0 +1,11 @@
+1. Database - an organized collection of structured information, or data, typically stored electronically in a computer system;
+
+Database System - DBMS + database
+
+DBMS - actually an interface between the database and its end users or programs, which allows users to retrieve, update and manage the information.
+
+2. Data integration - uniting data from different sources in one complete system. Actually the mission of this method is to ensure access to the data.
+
+Data Redundancy - a redundant storage of identical data in several places.
+
+3. Transaction
