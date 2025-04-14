@@ -8,4 +8,36 @@ DBMS - actually an interface between the database and its end users or programs,
 
 Data Redundancy - a redundant storage of identical data in several places.
 
-3. Transaction
+3. A transaction is a sequence of operations on a database 
+that is executed as a single atomic unit of work. 
+It guarantees the ACID properties: Atomicity, Consistency, Isolation, and Durability.
+```
+BEGIN;
+
+-- Encounting money from one balance
+UPDATE accounts
+SET balance = balance - 100
+WHERE id = 1;
+
+-- Adding money to another balance
+UPDATE accounts
+SET balance = balance + 100
+WHERE id = 2;
+
+COMMIT;
+
+```
+
+4. Synchronisation - coordination of concurrent trnasactions
+Persistence - The ability of data to outlive the process that created it.
+
+5. Data dictionary - contains data from definition components, provides other components
+with this information. It includes tables, indexes, triggers, views, etc...
+
+6. Walmart: + -> Millions of transactions, require reliabitiry, scalability and fast search.
+Examination office: + -> you obviously need student info, date of exam, sometimes exam paper to mark
+the work. Furthermore grades need to be protected.
+
+webunihelp.com: + -> you need to store info about users, time of message and messages, database is a good choice.
+
+Bruce Sptingsteen: - -> collections to small. It's enough to use Excel instead of DBMS.
