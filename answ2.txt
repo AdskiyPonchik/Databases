@@ -1,0 +1,158 @@
+1. Name the nine rules of Codd! Give an example for each rule!
+- Integration: uniform, non-redundant adta management
+Все данные в базе должны быть организованы в одной логически связной системе, 
+без дублирования.
+Пример: Если у студента есть имя, ID и факультет, 
+то эти данные не должны дублироваться в нескольких таблицах — 
+вместо этого можно использовать связи (внешние ключи).
+- Operations: insert, query, update, delete. Бд должна содержать 4 базовые операции.
+Book: Insert new book, request all books with same author, change the name, delete the book.
+- Catalog: The structure description of the entire database must be stored in an online catalog, known as data dictionary, 
+which can be accessed by authorized users. 
+Users can use the same query language to access the catalog which 
+they use to access the database itself.
+
+Example: you can make request to the database INFORMATION_SCHEMA.TABLES to know 
+which tables are in the database.
+
+- User views: different users/applications must be able to have a
+different perception of the data.
+Разные пользователи могут видеть разные представления одних и тех же данных, 
+в зависимости от своих нужд и прав.
+
+Manager sees the full salary of employees.
+The employee sees only his salary.
+In both cases, the data are taken from the same table.
+
+
+- Integrity: ensure conformity of database contents with real world.
+База должна гарантировать, 
+что данные соответствуют логическим правилам предметной области.
+
+It's clever to make restriction for student, for example, at age 200 years.
+
+- Security: prevention of unauthorized access.
+СУБД должна обеспечивать контроль доступа: 
+кто может читать, писать, изменять и удалять.
+
+Guest can only read data from table, but can't change it.
+
+- Transactions: multiple DB operations handled as an atomic unit
+Группа операций должна быть атомарной — 
+либо все завершаются успешно, либо откатываются.
+
+When transferring money from one account to another:
+withdraw money from account A and add to account B,
+if the second operation fails, the first one is also cancelled.
+
+- Synchronisation: coordination of concurrent transactions
+The DBMS must manage parallel queries to avoid conflicts 
+(for example, when writing to one line at the same time).
+
+Credit card top up from 2 points in the same time: 
+DBMS should correctly calculate the balance.
+
+- Recovery: data backup and recovery after system errors
+После сбоя СУБД должна восстановить базу данных из резервных копий и логов.
+
+After power is turned off, 
+the server automatically restores the database to its last stored state.
+
+
+2. Explain the terms database model and database schema! How are these two terms related? 
+What is the difference between a database schema and a database? Give examples.
+
+Database model - It is a conceptual structure that defines how data is organized and connected.
+Relational model (tables with rows and columns).
+Hierarchical model (data tree).
+Object-oriented model (data as objects)
+
+The schema is a database structure that describes what tables exist, how they are linked,
+and what fields they contain. For example:
+The Customers tablke can have CustomerID, Name, Email fields.
+
+The database model determines the type of schema. 
+For example, in a relational model, the schema will include tables and 
+relationships between them.
+
+The difference between a database and a database schema:
+- Database is data that is stored in the DBMS.
+- database schema is a database structure or project (such as tables, fields, and connections), but not the database itself.
+
+Example:
+Database: Customers table with customer data.
+Database diagram: Description of the Customers table (for example, CustomerID, 
+Name, Email fields).
+
+3. Explain the 3-Level-Schema-Architecture!
+External Level - this is that users see. It defines different user views of the data and provides
+a tailored interface for each user or application.
+
+Conceptual level - this represents the logical structure of the entire database for the community of users.
+It describes what data is stored, the relationships, and constraints, without considering
+physical aspects.
+Концептуальный уровень – логическое представление всей базы данных. 
+Описывает, какие данные хранятся, связи между ними и ограничения, не учитывая детали хранения.
+
+Internal Level – This is the physical storage level. 
+It defines how the data is actually stored in memory (files, indexes, etc.).
+Внутренний уровень – физический уровень хранения данных. 
+Определяет, как именно данные хранятся в памяти (файлы, индексы и т.д.).
+The Key Features of Internal Schema include the following:
+- It determines how the data is stored in the database.
+- It creates indexes to the data so the records can be accessed quickly.
+- It compresses the data in a form such that the quality of data is not lost and it takes up less space.
+- It divides large tables into smaller partitions for better management and performance.
+- It also includes security features so the data is never breached or hacked.
+
+4. Explain the term data independence? What are the benefits of data independence? 
+How does the 3-Level-Schema-Architecture provide data independence?
+Data independence means the ability to change the schema at one level 
+without affecting the schema at the next higher level.
+- Logical data independence: You can change the conceptual schema (e.g. add/remove a field in a table) 
+without affecting external views or applications.
+- Physical data independence: You can change how data is stored internally (e.g. use different indexing or storage structure) 
+without changing the conceptual schema.
+Benefits:
+- Easier maintenance.
+- Less disruption for users.
+- Applications don’t break after internal changes.
+How 3-Level-Architecture supports this:
+It separates the levels (external, conceptual, internal), 
+so changes in one can be isolated from others. 
+This separation is what allows data independence.
+
+5. What is DDL, DML, QL? For which database users (end user, application programmer, database admin) are they interesting?
+DDL - Data definition language. Used to define or modify the structure of the database.
+CREATE, ALTER, DROP
+DML - Data Manipulation language - used to manage data inside the tables(insert, update, delete).
+INSERT, UPDATE, DELETE.
+QL - Query Language - usually refers to SQL as a whole, but sometimes about data retrieval(SELECT statements).
+SELECT.
+
+End users:
+Mostly interact with the Query Language (QL) indirectly via applications. They don’t write SQL themselves but benefit from SELECT queries executed behind the scenes.
+Application programmers:
+Use DML and QL to insert, update, delete, and retrieve data. 
+Their focus — connecting the app logic to the database.
+Database administrators (DBA):
+Use DDL to define structure, DCL to manage permissions, 
+and QL for monitoring and direct data access. They work with the full range of SQL.
+
+6. Which of the following systems is a database management system (DBMS)?
+Explain your decision!
+• MySQL, Excel, LSF, IBM DB2, iTunes, Microsoft SQLServer
+MySQL — It is a popular relational database management system (RDBMS). It is used for storing, managing, and retrieving data from databases and supports SQL (Structured Query Language) for interacting with data.
+
+IBM DB2 — This is another database management system that is used for data processing and supports both relational and non-relational data models. It is a powerful and widely used system developed by IBM.
+
+Microsoft SQL Server — It is also a relational database management system developed by Microsoft. It provides tools for storing, processing, and managing data using SQL.
+
+Excel - it is a spreadsheet program, not a dbms. 
+While Excel can store and analyze data, it lacks DBMS features like large-scale data management, data security, or multi-user access.
+
+LSF — It is a workload management system used for task scheduling in university environments, not a DBMS. 
+LSF manages how tasks are distributed and executed across computing resources, but it is not related to database management.
+
+iTunes — A media player and content management platform, not a DBMS. 
+It may use databases for organizing media files, but it is not a DBMS itself.
