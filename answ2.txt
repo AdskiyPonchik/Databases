@@ -1,4 +1,5 @@
 1. Name the nine rules of Codd! Give an example for each rule!
+
 - Integration: uniform, non-redundant adta management
 Все данные в базе должны быть организованы в одной логически связной системе, 
 без дублирования.

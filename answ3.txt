@@ -1,0 +1,25 @@
+1. CREATE TABLE student (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  course VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE restaurant (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  owner VARCHAR(100) NOT NULL,
+  postal_code VARCHAR(10) NOT NULL,
+  city VARCHAR(50) NOT NULL,
+  street VARCHAR(100) NOT NULL
+);
+
+2. create table STUDENT_RESTAURANT(
+	student_id INT references student(id),
+	restaurant_id INT references restaurant(id),
+	primary key (student_id, restaurant_id)
+);
+
+alter table student add column age INT;
+
+3. 
