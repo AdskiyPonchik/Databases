@@ -23,3 +23,51 @@ CREATE TABLE restaurant (
 alter table student add column age INT;
 
 3. 
+
+create table PRODUCER(
+	vineyard VARCHAR(100) primary key,
+	area VARCHAR(100) unique,
+	region VARCHAR(100)
+);
+
+create table PRODUCER(
+	vineyard VARCHAR(100) primary key,
+	area VARCHAR(100) unique,
+	region VARCHAR(100)
+);
+
+4. CREATE TABLE FOOTBALL_PLAYER (
+    player_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    birth_date DATE,
+    shirt_number INT,
+    position VARCHAR(20) CHECK (position IN ('Goalkeeper', 'Defence', 'Forwards', 'Midfield'))
+); ??? 
+
+create type position_type as enum ('Goalkeeper', 'Defence', 'Forwards', 'Midfield');
+
+create table FOOTBALL_PLAYER(
+	player_id SERIAL primary key,
+	first_name VARCHAR(100),
+	last_name VARCHAR(100),
+	birth_date DATE,
+	shirt_nubmer INT,
+	position position_type
+);
+
+5.
+
+--INSERT INTO PRODUCER (vineyard, area, region) VALUES ('Creek', 'Barossa Valley', 'South Australia');
+
+--insert into producer (vineyard, area, region) VALUES('The Johannishof Winery', 'Rheingau', 'Hessen');
+--insert into wine (name, year, vineyard) values ('Merlot', 2009, 'Creek');
+
+
+6. 
+--update wine set year = year+1 where color = 'red';
+--select * from wine;
+delete from wine; --alternatively: truncate table wine; !!DANGER!!
+drop table producer CASCADE; --this deletes with dependencies
+-- alternatively: ALTER TABLE WINE DROP CONSTRAINT wine_vineyard_fkey; 
+-- to drop foreign keys in wine, then: DROP TABLE PRODUCER;
