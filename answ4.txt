@@ -1,0 +1,73 @@
+1.
+/*
+ * CREATE TABLE GRAPE (
+    grape_id INT PRIMARY KEY,   -- Уникальный идентификатор
+    grape_name VARCHAR(100),    -- Название винограда
+    grape_type VARCHAR(50)      -- Тип винограда (например, красный, белый и т.д.)
+);
+CREATE TABLE DISH (
+    dish_id INT PRIMARY KEY,    -- Уникальный идентификатор
+    dish_name VARCHAR(100),     -- Название блюда
+    dish_description TEXT       -- Описание блюда
+);
+CREATE TABLE CRITIC (
+    critic_id INT PRIMARY KEY,  -- Уникальный идентификатор
+    critic_name VARCHAR(100),   -- Имя критика
+    critic_contact VARCHAR(100) -- Контактная информация
+);
+*/
+
+
+CREATE TABLE RECOMMENDS (
+    grape_id INT,
+    critic_id INT,
+    recommendation_rating INT,
+    FOREIGN KEY (grape_id) REFERENCES GRAPE(grape_id) ON UPDATE CASCADE,
+    FOREIGN KEY (critic_id) REFERENCES CRITIC(critic_id) ON UPDATE CASCADE
+);
+
+CREATE TABLE MADE_FROM (
+    dish_id INT,
+    grape_id INT,
+    FOREIGN KEY (dish_id) REFERENCES DISH(dish_id) ON UPDATE CASCADE,
+    FOREIGN KEY (grape_id) REFERENCES GRAPE(grape_id) ON UPDATE CASCADE
+);
+
+2. 
+Restrict: Disallows the update or deletion of referenced data.
+
+Set to Null: When referenced data is updated or deleted, all associated dependent data is set to NULL.
+
+Set to Default: When referenced data is updated or deleted, all associated dependent data is set to a default value.
+
+Cascade: When referenced data is updated, all associated dependent data is correspondingly updated. 
+When a referenced row is deleted, all associated dependent rows are deleted.
+
+No Action: Disallows the update or deletion of referenced data. 
+This differs from RESTRICT in that it is checked at the end of the statement, or at the end of the transaction if the constraint is deferred. 
+
+```
+FOREIGN KEY (parent_id) REFERENCES parent_table(id) ON DELETE RESTRICT ON UPDATE RESTRICT
+```
+
+3. 
+π - Projection -> SELECT;
+σ - Selection -> WHERE;
+⨝ - Join -> JOIN;
+∪ - Union -> UNION;
+_ - Difference -> EXCEPT;
+
+a) SELECT Oid FROM line_item;
+Get all order IDs.
+b) SELECT Dealer.Name From Dealer JOIN ON Dealer.Did = Orders.Did;
+Get the names of all dealers that have placed orders.
+c) SELECT Did FROM Dealer WHERE Did NOT IN (SELECT Did FROM offers);
+Get the IDs of dealers who haven't made any offers.
+d) SELECT Date FROM Orders WHERE Date < '2003-03-01' OR Date > '2003-05-01';
+Get the dates of orders that were made before 01.03.2003 or after 01.05.2003.
+e) SELECT Customer.Cid, Customer.Name, Orders.Oid, Orders.Date, Product.Label, line_item.Amount
+FROM Customer 
+JOIN Orders ON Customer.Cid = Orders.Cid
+JOIN line_item ON Orders.Oid = line_item.Oid
+JOIN Product ON line_item.Pid = Product.Pid;
+Get the details about each customer and the products they ordered.
