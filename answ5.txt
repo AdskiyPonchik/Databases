@@ -1,0 +1,126 @@
+1.
+create table SoftwareCompany(
+	id SERIAL primary key,
+	name varchar(100) unique,
+	contactinfo varchar(100)
+);
+
+create table SoftwareProduct(
+	id SERIAL primary key,
+	name VARCHAR(150) unique,
+	VersionNumber VARCHAR(20)[],
+	price decimal(10,2) not null,
+	createdby int,
+	foreign key(createdby) references SoftwareCompany(id) on delete cascade
+);
+
+create table dependency(
+	id SERIAL primary key,
+	SoftwareProductID int,
+	DependencyProductID int,
+	foreign key(SoftwareProductID) references SoftwareProduct(id) on delete cascade,
+	 FOREIGN KEY (DependencyProductID) REFERENCES SoftwareProduct(id) ON DELETE CASCADE
+);
+
+
+2. 
+create table University(
+	id SERIAL primary key,
+	name VARCHAR(100) unique,
+	adress VARCHAR(150),
+	enrolled_students int not null
+);
+
+create table faculty(
+	id SERIAL primary key,
+	name VARCHAR(100) not null,
+	head_name VARCHAR(100) not null,
+	university_id int,
+	foreign key (university_id) references University(id) on delete cascade
+);
+
+3.
+
+CREATE TYPE gender_type AS ENUM ('male', 'female');
+create type difficulty as ENUM('Easy', 'Medium', 'Hard');
+CREATE TABLE Faculty (
+    id SERIAL primary key,
+    name VARCHAR(255) NOT NULL,
+    secretary_name VARCHAR(100), 
+    phone_number VARCHAR(15)
+);
+
+create table student(
+	id SERIAL primary key,
+	name VARCHAR(100),
+	home_adress VARCHAR(100),
+	phone_number VARCHAR(15),
+	birth_date DATE,
+	gender gender_type,
+	faculty_id int not null,
+	semester VARCHAR(15) not null,
+	target_graduation DATE,
+	foreign key(faculty_id) references Faculty(id) on delete set null 
+) ;
+
+CREATE TABLE Course (
+    id SERIAL primary key,
+    name VARCHAR(100) NOT NULL, 
+    description TEXT,
+    course_number VARCHAR(50) UNIQUE NOT NULL,
+    credit_points INT,
+    difficulty_level difficulty,
+    faculty_id INT,
+    FOREIGN KEY (faculty_id) REFERENCES Faculty(id) ON DELETE CASCADE
+);
+CREATE TABLE Exercise (
+    id SERIAL primary key,
+    course_id INT,
+    term_year VARCHAR(20),
+    exercise_number INT,
+    instructor_name VARCHAR(100),
+    FOREIGN KEY (course_id) REFERENCES Course(id) ON DELETE CASCADE
+);
+
+CREATE TABLE ExercisePerformance (
+    id SERIAL primary key,
+    student_id INT,
+    exercise_id INT,
+    grade DECIMAL(5,2),
+    FOREIGN KEY (student_id) REFERENCES Student(id) ON DELETE CASCADE,
+    FOREIGN KEY (exercise_id) REFERENCES Exercise(id) ON DELETE CASCADE
+);
+
+4.
+CREATE TABLE CD (
+    id SERIAL PRIMARY KEY,
+    artist_name VARCHAR(255),
+    title VARCHAR(255),
+    genre VARCHAR(100)
+);
+CREATE TABLE Track (
+    id SERIAL PRIMARY KEY,
+    cd_id INT,
+    track_title VARCHAR(255),
+    FOREIGN KEY (cd_id) REFERENCES CD(id) ON DELETE CASCADE
+);
+CREATE TABLE Member (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    address VARCHAR(255),
+    phone_number VARCHAR(15)
+);
+CREATE TABLE Ownership (
+    member_id INT,
+    cd_id INT,
+    PRIMARY KEY (member_id, cd_id),
+    FOREIGN KEY (member_id) REFERENCES Member(id) ON DELETE CASCADE,
+    FOREIGN KEY (cd_id) REFERENCES CD(id) ON DELETE CASCADE
+);
+
+CREATE TABLE OwnerPreference (
+    member_id INT,
+    preferred_genre VARCHAR(100),
+    PRIMARY KEY (member_id),
+    FOREIGN KEY (member_id) REFERENCES Member(id) ON DELETE CASCADE
+);
