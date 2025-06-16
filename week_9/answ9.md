@@ -45,3 +45,15 @@ FROM employee;
 e)select upper(substr(type, 1,1))||lower(substr(type, 2)) as name,
 length(type) as length from plane_type;
 ```
+3.
+```sql
+a)select count(*) as number_of_planes from departure;
+b)select count(*) as employes from employee where job like'%Dr.%' OR job LIKE '%PhD%';
+c)select job, avg(salary) as average_job from employee group by job;
+d)select sum(price) as total_price, count(*) as number_of_bookings from
+booking where flight_date>='1993-01-01' and flight_date<='1993-12-31';
+e)SELECT job, MIN(salary) AS minimum_salary
+FROM employee
+GROUP BY job;
+f)SELECT (MAX(salary) - MIN(salary)) AS salary_difference
+FROM employee;
