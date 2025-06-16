@@ -1,0 +1,69 @@
+3.
+-- 1. Основная таблица сноубордистов
+CREATE TABLE Snowboarder (
+    ID INT PRIMARY KEY,
+    FirstName VARCHAR(100),
+    LastName VARCHAR(100),
+    BirthDate DATE,
+    HomeMountain VARCHAR(100)
+);
+
+-- 2. Профессиональные сноубордисты (наследование 1:1)
+CREATE TABLE Professional (
+    ID INT PRIMARY KEY,
+    LicenseNumber VARCHAR(50),
+    BestTrick VARCHAR(100),
+    WorldCupPoints INT,
+    FOREIGN KEY (ID) REFERENCES Snowboarder(ID)
+);
+
+-- 3. Спонсоры
+CREATE TABLE Sponsor (
+    SponsorID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Budget DECIMAL(12,2)
+);
+
+-- 4. Связь между профессионалами и спонсорами (многие ко многим)
+CREATE TABLE SponsoredBy (
+    ProfessionalID INT,
+    SponsorID INT,
+    Amount DECIMAL(10,2),
+    PRIMARY KEY (ProfessionalID, SponsorID),
+    FOREIGN KEY (ProfessionalID) REFERENCES Professional(ID),
+    FOREIGN KEY (SponsorID) REFERENCES Sponsor(SponsorID)
+);
+
+-- 5. Соревнования
+CREATE TABLE Competition (
+    Name VARCHAR(100),
+    Year INT,
+    PrizeMoney DECIMAL(10,2),
+    SponsorID INT,
+    PRIMARY KEY (Name, Year),
+    FOREIGN KEY (SponsorID) REFERENCES Sponsor(SponsorID)
+);
+
+-- 6. Участие сноубордистов в соревнованиях (многие ко многим)
+CREATE TABLE ParticipatesIn (
+    SnowboarderID INT,
+    CompetitionName VARCHAR(100),
+    CompetitionYear INT,
+    PRIMARY KEY (SnowboarderID, CompetitionName, CompetitionYear),
+    FOREIGN KEY (SnowboarderID) REFERENCES Snowboarder(ID),
+    FOREIGN KEY (CompetitionName, CompetitionYear) REFERENCES Competition(Name, Year)
+);
+
+-- 7. Квалификация с одного соревнования в другое
+CREATE TABLE QualifiedFromTo (
+    SnowboarderID INT,
+    FromName VARCHAR(100),
+    FromYear INT,
+    ToName VARCHAR(100),
+    ToYear INT,
+    PRIMARY KEY (SnowboarderID, FromName, FromYear, ToName, ToYear),
+    FOREIGN KEY (SnowboarderID) REFERENCES Snowboarder(ID),
+    FOREIGN KEY (FromName, FromYear) REFERENCES Competition(Name, Year),
+    FOREIGN KEY (ToName, ToYear) REFERENCES Competition(Name, Year)
+);
+5.
