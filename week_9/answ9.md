@@ -11,7 +11,6 @@ f)SELECT name FROM employee WHERE LENGTH(name) - LENGTH(REPLACE(name, 'L', '')) 
 g) SELECT name, job, salary
 FROM employee
 WHERE (job = 'Dipl.-Ing.' OR job = 'steward/-ess') AND salary >= 6000;
-
 ```
 
 2. 
@@ -57,3 +56,41 @@ FROM employee
 GROUP BY job;
 f)SELECT (MAX(salary) - MIN(salary)) AS salary_difference
 FROM employee;
+```
+4.
+```sql
+SELECT DISTINCT X.exam ID FROM exams X
+WHERE X.exam ID IN (
+SELECT Y.exam ID FROM exams Y
+WHERE Y.student ID <> X.student ID);
+```
+It searches for all exam_IDs such that at least one other student (with student_ID not equal to the current X.student_ID) also took the same exam.
+That is, it returns exam_IDs that have been taken by more than one student.
+
+```sql
+a) SELECT DISTINCT X.exam_ID
+FROM exams X
+JOIN exams Y ON X.exam_ID = Y.exam_ID
+WHERE X.student_ID <> Y.student_ID;
+
+b) SELECT exam_ID
+FROM exams
+GROUP BY exam_ID
+HAVING COUNT(DISTINCT student_ID) > 1;
+```
+5. 
+```sql
+A Natural Join performs a join between two tables based on columns that have the same name and compatible data types.
+a) select * from person natural join salary;
+
+A LEFT OUTER JOIN is a method of combining tables that returns all rows from the first (left) table and the matching rows from the right table. A LEFT OUTER JOIN is also called LEFT JOIN.
+b)  select Person.name, Person.Pid, Salary.salary from Person left outer join Salary on Person.Pid=Salary.Pid
+
+The RIGHT JOIN keyword returns all records from the right table (table2), and the matching records from the left table (table1). The result is 0 records from the left side, if there is no match
+c) select Salary.Pid, Salary.salary, Person.Name from Person right outer join Salary on Person.Pid = Salary.Pid;
+
+The FULL OUTER JOIN keyword returns all records when there is a match in left (table1) or right (table2) table records.
+COALESCE is a special function that evaluates each of its arguments in order and on output returns the value of the first argument that was not NULL.
+d) SELECT Person.Name, 
+       COALESCE(Person.Pid, Salary.Pid) AS Pid, 
+       Salary.Salary FROM Person FULL OUTER JOIN Salary ON Person.Pid = Salary.Pid;
