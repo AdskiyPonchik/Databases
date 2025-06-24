@@ -76,7 +76,63 @@ WHERE Id IN (
 c)
 SELECT Name
 FROM Employees
-START WITH Name = 'Paul Meier'
-CONNECT BY PRIOR Manager = Id
-AND Name != PRIOR Name;
+START WITH Name = 'Paul Meier' --where to start
+CONNECT BY PRIOR Id = Manager --who is who's boss
 ```
+5.
+```sql
+a)
+CREATE VIEW cs_faculty_view AS
+SELECT *
+FROM exams
+WHERE course_of_studies = 'computerscience';
+
+b)
+create view examination_office_view as
+select * from exams;
+
+c)
+CREATE VIEW scholarship_commission_view AS
+SELECT student, AVG(mark) AS avg_mark
+FROM exams
+GROUP BY student;
+
+d)
+CREATE VIEW dean_statistical_view AS
+SELECT course_of_studies, course, date, mark
+FROM exams
+WHERE date >= current_date - interval '1 year'
+  AND date < current_date;
+```
+6.
+```sql
+a)
+select o.date, o.orders, v.value
+from orders o
+join values v on o.date=v.date;
+
+b)SELECT o.Date AS Order_Date, o.Orders, v.Date AS Value_Date, v.Value
+FROM Orders o
+JOIN Values v ON o.Date > v.Date;
+
+C)
+| Date       | Orders     |
+| ---------- | ---------- |
+| 02.09.2003 | Furniture  |
+| 23.06.2004 | Vegetables |
+| 01.12.2005 | Pots       |
+
+```
+7.
+In R ÷ S remain those Names for which there are all Product from S
+1.
+Meier
+West
+
+2.
+Meier
+Mueller
+Schmidt
+
+3.
+Schmidt
