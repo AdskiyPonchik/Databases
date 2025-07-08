@@ -19,6 +19,7 @@ WHERE NOT EXISTS (
     WHERE o.Cid = c.Cid AND l.Pid = p.Pid
 );
 
+
 c)
 SELECT DISTINCT o1.Cid AS Customer1, o2.Cid AS Customer2
 FROM Orders o1
@@ -26,14 +27,23 @@ JOIN LineItem l1 ON o1.Oid = l1.Oid
 JOIN LineItem l2 ON l1.Pid = l2.Pid
 JOIN Orders o2 ON l2.Oid = o2.Oid
 WHERE o1.Cid < o2.Cid;
+-- (A, B), not (B, A)
 
 d)
-SELECT o.Did
-FROM Offers o
+SELECT o.Did as dealer_id
+FROM offers o
 GROUP BY o.Did
-HAVING COUNT(DISTINCT o.Pid) = (
-    SELECT COUNT(DISTINCT l.Pid)
-    FROM LineItem l
+HAVING COUNT(DISTINCT o.Pid) >= (
+    SELECT COUNT(DISTINCT li.Pid)
+    FROM line_item li
+)AND NOT EXISTS (
+    SELECT li.Pid
+    FROM line_item li
+    WHERE li.Pid NOT IN (
+        SELECT o2.Pid
+        FROM offers o2
+        WHERE o2.Did = o.Did
+    )
 );
 
 e)
